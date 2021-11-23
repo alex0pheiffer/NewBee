@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test_PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
     private BoxCollider2D coll;
     private SpriteRenderer sprite;
     private Animator anim;
-
-    [SerializeField] private LayerMask jumpableGround;
 
     private float dirX = 0;
     [SerializeField] private float horizontalSpeed = 4f;
@@ -38,13 +36,14 @@ public class Test_PlayerMovement : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {   
+    {
         ///////////// MOVEMENT
 
         // you can use .GetAxis instead of .GetAxisRaw to slide a bit after releasing the a/d keys
         dirX = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(horizontalSpeed * dirX, rb.velocity.y);
 
+        /*
         // check if you need to clear the jump counter
         if (jumpCounter >= maxJumps && IsGrounded() && Time.time - timeSinceLastJump > 0.05f)
         {
@@ -56,9 +55,10 @@ public class Test_PlayerMovement : MonoBehaviour
             // play the land sound
             landSound.Play();
         }
+        */
         if (Input.GetButtonDown("Jump"))
         {
-            if (IsGrounded() || (USE_SINGLEJUMP && jumpCounter < maxJumps))
+            if (USE_SINGLEJUMP && jumpCounter < maxJumps)
             {
                 // jump
                 rb.velocity = new Vector2(0, jumpForce);
@@ -107,9 +107,14 @@ public class Test_PlayerMovement : MonoBehaviour
         anim.SetInteger("state", (int)state);
     }
 
-    private bool IsGrounded()
+    public void SetJumpable(bool canJump)
     {
-        // return if .1f below us is overlapping with jumpable ground
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+        if (jumpCounter < maxJumps) return;
+        if (Time.time - timeSinceLastJump < 0.05f) return;
+        // reset the jump counter
+        if (canJump)
+            jumpCounter = 0;
+        else
+            jumpCounter = maxJumps;
     }
 }
