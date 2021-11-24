@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Melon
   - Trap
+  - Bee
+  - Cat
+  - Hammer
+  - Flower
   layers:
   - Default
   - TransparentFX

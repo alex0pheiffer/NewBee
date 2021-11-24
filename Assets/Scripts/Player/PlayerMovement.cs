@@ -82,12 +82,12 @@ public class PlayerMovement : MonoBehaviour
         if (dirX > 0f)
         {
             state = MovementState.run;
-            sprite.flipX = false;
+            sprite.flipX = true;
         }
         else if (dirX < 0f)
         {
             state = MovementState.run;
-            sprite.flipX = true;
+            sprite.flipX = false;
         }
         else
         {
