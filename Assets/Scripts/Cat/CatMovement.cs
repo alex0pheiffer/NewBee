@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// Cat Movement
+//
+// Cats must see their target in order to start path-finding.
+// When a cat is stunned, their pathfinding is interrupted and canceled.
 public class CatMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
@@ -19,6 +24,8 @@ public class CatMovement : MonoBehaviour
 
     private bool isStun = false;
     private bool isWham = false;
+
+    private bool beeInSight = false;
 
     void Start()
     {
@@ -108,5 +115,21 @@ public class CatMovement : MonoBehaviour
     {
         // return if .1f below us is overlapping with jumpable ground
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, solidGround);
+    }
+
+    // the trigger box is the vision circle
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // do nothing if we're stunned
+        if (isStun) return;
+        // do nothing if we're currently chasing a bee
+        if (beeInSight) return;
+
+        // if you see a bee, chase
+        if (collision.gameObject.CompareTag("Bee"))
+        {
+            beeInSight = true;
+            // TODO set our target to this gameObject
+        }
     }
 }
