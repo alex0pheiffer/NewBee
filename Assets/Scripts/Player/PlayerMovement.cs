@@ -12,8 +12,9 @@ public class PlayerMovement : MonoBehaviour
     private float dirX = 0;
     [SerializeField] private float horizontalSpeed = 4f;
     [SerializeField] private float jumpForce = 4f;
+    [SerializeField] private LayerMask solidGround;
 
-    private enum MovementState { idle, run, jump, fall }
+    private enum MovementState { idle, run, jump, fall, jumpapex }
 
     [SerializeField] private AudioSource jumpSound;
     [SerializeField] private AudioSource landSound;
@@ -82,12 +83,12 @@ public class PlayerMovement : MonoBehaviour
         if (dirX > 0f)
         {
             state = MovementState.run;
-            sprite.flipX = true;
+            sprite.flipX = false;
         }
         else if (dirX < 0f)
         {
             state = MovementState.run;
-            sprite.flipX = false;
+            sprite.flipX = true;
         }
         else
         {
@@ -99,9 +100,13 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.jump;
         }
-        else if (rb.velocity.y < -.1f)
+        else if (rb.velocity.y < -.1f && FallingToGround())
         {
             state = MovementState.fall;
+        }
+        else if (!IsGrounded())
+        {
+            state = MovementState.jumpapex;
         }
 
         anim.SetInteger("state", (int)state);
@@ -116,5 +121,15 @@ public class PlayerMovement : MonoBehaviour
             jumpCounter = 0;
         else
             jumpCounter = maxJumps;
+    }
+    private bool IsGrounded()
+    {
+        // return if .1f below us is overlapping with jumpable ground
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, solidGround);
+    }
+    private bool FallingToGround()
+    {
+        // return if .1f below us is overlapping with jumpable ground
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 2f, solidGround);
     }
 }
