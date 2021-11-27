@@ -20,7 +20,7 @@ public class CatMovement : MonoBehaviour
     [SerializeField] private float horizontalSpeed = 4f;
     
     // TODO we still need a run animation sprite
-    private enum MovementState { idle, run, jump, stun, wham }
+    private enum MovementState { idle, run, jump, wham, stun }
 
     private bool isStun = false;
     private bool isWham = false;
