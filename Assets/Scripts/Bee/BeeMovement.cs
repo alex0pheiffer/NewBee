@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BeeMovement : MonoBehaviour
 {
+    private NavMeshAgent agent;
     private Rigidbody2D rb;
     private BoxCollider2D coll;
     private SpriteRenderer sprite;
     private Animator anim;
+
+    private GameObject target;
 
     private float dirX = 0;
     [SerializeField] private float horizontalSpeed = 4f;
@@ -21,6 +25,10 @@ public class BeeMovement : MonoBehaviour
         coll = GetComponent<BoxCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
     }
 
     void Update()
@@ -36,6 +44,12 @@ public class BeeMovement : MonoBehaviour
         }
 
         // TODO add in the state of homing (plant, hive)
+        // after some ifs...
+        // set new state of homing
+        GameObject[] homeList = GameObject.FindGameObjectsWithTag("Flower");
+        //GameObject[] homeList = GameObject.FindGameObjectsWithTag("Hive");
+        int randIndex = Random.Range(0, homeList.Length);
+        target = homeList[randIndex];
 
         // TODO add in its collision with respective home
 
