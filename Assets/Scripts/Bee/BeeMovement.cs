@@ -27,8 +27,7 @@ public class BeeMovement : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
 
-        target = GameObject.FindWithTag("Flower").transform;
-
+        
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -50,7 +49,8 @@ public class BeeMovement : MonoBehaviour
         // after some ifs...
         // set new state of homing
         //GameObject[] homeList = GameObject.FindGameObjectsWithTag("Flower");
-        
+        target = GameObject.FindWithTag("Flower").transform; 
+        //Need FindWithTag bc FindGameObjectWithTag returns an array of GameObjects, so can't do .transform
         //GameObject[] homeList = GameObject.FindGameObjectsWithTag("Hive");
         //int randIndex = Random.Range(0, homeList.Length);
         //target = homeList[randIndex];
