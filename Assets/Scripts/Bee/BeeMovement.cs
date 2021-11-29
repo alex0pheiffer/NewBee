@@ -11,7 +11,8 @@ public class BeeMovement : MonoBehaviour
     private SpriteRenderer sprite;
     private Animator anim;
 
-    private GameObject target;
+    //private GameObject target;
+    [SerializeField] Transform target;
 
     private float dirX = 0;
     [SerializeField] private float horizontalSpeed = 4f;
@@ -25,6 +26,8 @@ public class BeeMovement : MonoBehaviour
         coll = GetComponent<BoxCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+
+        target = GameObject.FindWithTag("Flower").transform;
 
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
@@ -46,11 +49,12 @@ public class BeeMovement : MonoBehaviour
         // TODO add in the state of homing (plant, hive)
         // after some ifs...
         // set new state of homing
-        GameObject[] homeList = GameObject.FindGameObjectsWithTag("Flower");
+        //GameObject[] homeList = GameObject.FindGameObjectsWithTag("Flower");
+        
         //GameObject[] homeList = GameObject.FindGameObjectsWithTag("Hive");
-        int randIndex = Random.Range(0, homeList.Length);
-        target = homeList[randIndex];
-
+        //int randIndex = Random.Range(0, homeList.Length);
+        //target = homeList[randIndex];
+        agent.SetDestination(target.position);
         // TODO add in its collision with respective home
 
         // homing movement will hoepfully be controlled by unity navigation
