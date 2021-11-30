@@ -29,7 +29,9 @@ public class BeeMovement : MonoBehaviour
     private bool onHive = false;
 
     private float counter = 0f;
-    private float honeyWait = 5f;
+    private float counterHive = 0f;
+    private float honeyWait = 3f;
+    private float hiveWait = 5f;
 
     private int amtHoney = 0;
     private static int maxHoney = 1;        //for testing--put real number later
@@ -74,7 +76,6 @@ public class BeeMovement : MonoBehaviour
             counter += Time.deltaTime;
             if (counter >= honeyWait)
             {
-                //onFlower = false;
                 counter = 0;
                 amtHoney += 1;
                 Debug.Log("Added 1 honey, currentState = " + currentState);
@@ -88,7 +89,18 @@ public class BeeMovement : MonoBehaviour
             }
         }
 
-        
+        if (onHive)
+        {
+            counterHive += Time.deltaTime;
+            if (counterHive >= hiveWait)
+            {
+                counter = 0;
+                SetHoneyEmpty();
+                Debug.Log("Waited enough at hive, currentState = " + currentState);
+                onHive = false;
+                currentState = StateState.flower;
+            }
+        }
 
         // if needed, set new state of homing
         if (currentState == StateState.flower && !IsCurrentTargetType("Flower"))
@@ -198,7 +210,6 @@ public class BeeMovement : MonoBehaviour
     public void CollidedWithHive()
     {
         onHive = true;
-        SetHoneyEmpty();
         Debug.Log("In CollidedWithHive, , currentState = " + currentState);
     }
 
