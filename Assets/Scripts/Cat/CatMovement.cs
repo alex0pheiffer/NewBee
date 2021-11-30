@@ -154,7 +154,6 @@ public class CatMovement : MonoBehaviour
     // the trigger box is the vision circle
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Cat collision : "+targetObj);
 
         // do nothing if we're stunned
         if (isStun) return;
@@ -168,6 +167,21 @@ public class CatMovement : MonoBehaviour
 
             targetObj = collision.gameObject;
             seeker.StartPath(rb.position, targetObj.transform.position, OnPathComplete);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        // do nothing if we're stunned
+        if (isStun) return;
+        
+        // if the creature exiting is a bee, and specifically the bee you're chasing
+        if (collision.gameObject.CompareTag("Bee") && collision.gameObject == targetObj)
+        {
+            Debug.Log("Cat saw bee");
+
+            targetObj = null;
+            seeker.;
         }
     }
 
