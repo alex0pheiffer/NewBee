@@ -62,45 +62,46 @@ public class BeeMovement : MonoBehaviour
             if (currentState == StateState.stun) return;
         }
 
-        if (onFlower)
-        {
-            counter += Time.deltaTime;
-            if (counter >= honeyWait)
-            {
-                onFlower = false;
-                counter = 0;
-                amtHoney += 1;
-            }
-        }
-
         // TODO:
         // if at flower and amtHoney >= maxHoney: homeHive = true
         // else if at flower: increment amtHoney based on last time checked [done in Flower.cs]
         // if at hive and amtHoney >= maxHoney: amtHoney = 0; honeycount++ [done in BeehiveScript.cs]
         // else if at hive: homeFlower = true [done in SetHoneyEmpty, called by BeehiveScript.cs]
-        if (amtHoney >= maxHoney)
+        
+
+        if (onFlower)
         {
-            Debug.Log("amtHoney = " + amtHoney + ", maxHoney = " + maxHoney);
-            currentState = StateState.hive;
+            counter += Time.deltaTime;
+            if (counter >= honeyWait)
+            {
+                //onFlower = false;
+                counter = 0;
+                amtHoney += 1;
+                Debug.Log("Added 1 honey, currentState = " + currentState);
+            }
+
+            if (amtHoney >= maxHoney)
+            {
+                Debug.Log("amtHoney = " + amtHoney + ", maxHoney = " + maxHoney);
+                currentState = StateState.hive;
+                onFlower = false;
+            }
         }
 
+        
 
         // if needed, set new state of homing
         if (currentState == StateState.flower && !IsCurrentTargetType("Flower"))
         {
             SetTargetFlower();
         }
-        else if (currentState == StateState.hive)
+        else if (currentState == StateState.hive && !IsCurrentTargetType("Hive"))
         {
             SetTargetHive();
         }
 
         // keep moving to target
         agent.SetDestination(target.position);
-
-        // TODO add in its collision with respective home
-
-        // homing movement will hoepfully be controlled by unity navigation
 
         UpdateAnimationState();
     }
@@ -157,40 +158,33 @@ public class BeeMovement : MonoBehaviour
 
     private void SetTargetFlower() 
     {
-        Debug.Log("Target is set to flower");
+        Debug.Log("Target is set to flower, currentState = " + currentState);
         GameObject[] homeList = GameObject.FindGameObjectsWithTag("Flower");
         //must have the above line in this function and not start function... idk why
         int randIndex = Random.Range(0, homeList.Length);
         targetObj = homeList[randIndex];
         target = targetObj.transform;
-        currentState = StateState.flower; //TODO: CHECK IF WE NEED THIS HERE OR ELSEWHERE?????
     }
 
     private void SetTargetHive()
     {
-        Debug.Log("Target is set to hive");
+        Debug.Log("Target is set to hive, currentState = " + currentState);
         targetObj = GameObject.FindWithTag("Hive");
         target = targetObj.transform;
-        //used to set HomeHive to false here which was glitching
     }
 
-    public void SetHoneyEmpty()
+    private void SetHoneyEmpty()
     {
         amtHoney = 0;
-        currentState = StateState.flower;
+        //currentState = StateState.flower;         //TODO: IS THIS NEEDED HERE?
     }
 
-    /*public void CollectHoney()
-    {
-        amtHoney += 1;          //increment based on time, time is in [Flower.cs]
-    }*/
-
-    private bool IsCurrentTargetType(string s)
+    private bool IsCurrentTargetType(string s) //Compares object tag
     {
         return targetObj.CompareTag(s);
     }
 
-    public bool IsCurrentTarget(GameObject ob)
+    public bool IsCurrentTarget(GameObject ob) //Compares references
     {
         return ob.transform == target;
     }
@@ -198,6 +192,14 @@ public class BeeMovement : MonoBehaviour
     public void CollidedWithFlower()
     {
         onFlower = true;
+        Debug.Log("In CollidedWithFlower, , currentState = " + currentState);
+    }
+
+    public void CollidedWithHive()
+    {
+        onHive = true;
+        SetHoneyEmpty();
+        Debug.Log("In CollidedWithHive, , currentState = " + currentState);
     }
 
     public bool IsOnFlower()

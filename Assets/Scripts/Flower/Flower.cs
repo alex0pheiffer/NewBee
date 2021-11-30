@@ -25,6 +25,7 @@ public class Flower : MonoBehaviour
         {
             //WaitAtFlower();
             collision.gameObject.GetComponent<BeeMovement>().CollidedWithFlower();
+            Debug.Log("Call CollidedWithFlower");
         }
     }
 
