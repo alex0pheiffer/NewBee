@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private BoxCollider2D coll;
     private SpriteRenderer sprite;
     private Animator anim;
+    [SerializeField] private GameObject hammer;
 
     private float dirX = 0;
     [SerializeField] private float horizontalSpeed = 4f;
@@ -25,10 +26,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int maxJumps = 1;
     private float timeSinceLastJump = 0f;
     
-    private bool isWham = false;
+    public bool isWham = false;
     //private float timeSinceLastWham = 0f;
     //private const float whamCD = 0.5f;
-
+    private bool flipY = false;
 
     // Start is called before the first frame update
     void Start()
@@ -76,11 +77,12 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //TODO: implement whamming sprite
-        /*
+        
         if (Input.GetButtonDown("Wham")) 
         {
             isWham = true;
-        }*/
+            Debug.Log("get button down wham");
+        }
 
         UpdateAnimationState();
 
@@ -93,12 +95,16 @@ public class PlayerMovement : MonoBehaviour
         if (dirX > 0f)
         {
             state = MovementState.run;
-            sprite.flipX = false;
+            //sprite.flipX = false;
+            //hammer.GetComponent<HammerScript>().FlipY(false);
+            FlipY(true);
         }
         else if (dirX < 0f)
         {
             state = MovementState.run;
-            sprite.flipX = true;
+            //sprite.flipX = true;
+            //hammer.GetComponent<HammerScript>().FlipY(true);
+            FlipY(false);
         }
         else
         {
@@ -120,13 +126,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // if not moving up/down and wants to wham
-        /*if (rb.velocity.y == 0f && isWham)
+        if (isWham)
         {
             state = MovementState.wham;
+            hammer.SetActive(true);
         }
-
-        // if pressed wham while moving vertically, do not wham after completing vertical movement.
-        isWham = false;*/
 
         anim.SetInteger("state", (int)state);
     }
@@ -150,5 +154,17 @@ public class PlayerMovement : MonoBehaviour
     {
         // return if .1f below us is overlapping with jumpable ground
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 2f, solidGround);
+    }
+    public void HammerOff()
+    {
+        hammer.SetActive(false);
+    }
+    private void FlipY(bool flip)
+    {
+        if (flip != flipY)
+        {
+            flipY = flip;
+            gameObject.transform.Rotate(0f, 180f, 0f, Space.Self);
+        }
     }
 }
