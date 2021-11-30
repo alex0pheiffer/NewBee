@@ -5,8 +5,7 @@ using UnityEngine;
 public class HammerScript : MonoBehaviour
 {
     private Animator anim;
-
-    private bool flipY = false;
+    //private bool flipY = false;
     private enum MovementState { idle, wham };
 
     // Start is called before the first frame update
@@ -22,12 +21,12 @@ public class HammerScript : MonoBehaviour
         anim.SetInteger("state", (int)state);
     }
 
-    public void FlipY(bool flip)
+    /*public void FlipY(bool flip)
     {
         if (flip != flipY)
         {
             flipY = flip;
             gameObject.transform.Rotate(0f, 180f, 0f, Space.Self);
         }
-    }
+    }*/
 }

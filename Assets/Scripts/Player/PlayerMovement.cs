@@ -155,10 +155,10 @@ public class PlayerMovement : MonoBehaviour
         // return if .1f below us is overlapping with jumpable ground
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 2f, solidGround);
     }
-    public void HammerOff()
+    /*public void HammerOff() // not in use by animator, or anything else
     {
         hammer.SetActive(false);
-    }
+    }*/
     private void FlipY(bool flip)
     {
         if (flip != flipY)
