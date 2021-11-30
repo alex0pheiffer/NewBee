@@ -21,6 +21,8 @@ public class BeeMovement : MonoBehaviour
     private bool isStun = false;
     private bool homeFlower = false;
     private bool homeHive = false;
+    private int amtHoney = 0;
+    private static int maxHoney = 10;
     private GameObject[] homeList;
 
     void Start()
@@ -49,14 +51,17 @@ public class BeeMovement : MonoBehaviour
             if (isStun) return;
         }
 
-        // TODO keep track of amt of honey + add timer for this
-        // TODO if bee has collected enough honey, set homeHive = true
-        
+        // TODO keep track of amtHoney + add timer for this
+        // TODO:
+        // if at flower and amtHoney >= maxHoney: homeHive = true
+        // else if at flower: increment amtHoney based on last time checked
+        // if at hive and amtHoney >= maxHoney: amtHoney = 0; honeycount++ (public var?)
+        // else if at hive: homeFlower = true
 
         // if needed, set new state of homing
         if (homeFlower)
         {
-           setTargetFlower();
+            setTargetFlower();
         }
         else if (homeHive)
         {
@@ -65,7 +70,7 @@ public class BeeMovement : MonoBehaviour
 
         // keep moving to target
         agent.SetDestination(target.position);
-        
+
         // TODO add in its collision with respective home
 
         // homing movement will hoepfully be controlled by unity navigation
@@ -107,11 +112,13 @@ public class BeeMovement : MonoBehaviour
         //must have the above line in this function and not start function... idk why
         int randIndex = Random.Range(0, homeList.Length);
         target = homeList[randIndex].transform;
+        homeFlower = false;
     }
 
     private void setTargetHive()
     {
         target = GameObject.FindWithTag("Hive").transform;
+        homeHive = false;
     }
 
 }
