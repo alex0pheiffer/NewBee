@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce = 4f;
     [SerializeField] private LayerMask solidGround;
 
-    private enum MovementState { idle, run, jump, fall, jumpapex }
+    private enum MovementState { idle, run, jump, fall, jumpapex, wham }
 
     [SerializeField] private AudioSource jumpSound;
     [SerializeField] private AudioSource landSound;
@@ -24,6 +24,10 @@ public class PlayerMovement : MonoBehaviour
     private int jumpCounter = 0; // a counter in case you want to implement double-jumping
     [SerializeField] private int maxJumps = 1;
     private float timeSinceLastJump = 0f;
+    
+    private bool isWham = false;
+    //private float timeSinceLastWham = 0f;
+    //private const float whamCD = 0.5f;
 
 
     // Start is called before the first frame update
@@ -71,6 +75,12 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        //TODO: implement whamming sprite
+        /*
+        if (Input.GetButtonDown("Wham")) 
+        {
+            isWham = true;
+        }*/
 
         UpdateAnimationState();
 
@@ -108,6 +118,15 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.jumpapex;
         }
+
+        // if not moving up/down and wants to wham
+        /*if (rb.velocity.y == 0f && isWham)
+        {
+            state = MovementState.wham;
+        }
+
+        // if pressed wham while moving vertically, do not wham after completing vertical movement.
+        isWham = false;*/
 
         anim.SetInteger("state", (int)state);
     }

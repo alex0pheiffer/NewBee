@@ -181,7 +181,7 @@ public class CatMovement : MonoBehaviour
             Debug.Log("Cat saw bee");
 
             targetObj = null;
-            seeker.;
+            //seeker. ;             //TODO: Alex you left this here
         }
     }
 
