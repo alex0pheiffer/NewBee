@@ -12,13 +12,16 @@ public class BeeMovement : MonoBehaviour
     private Animator anim;
 
     //private GameObject target;
-    [SerializeField] Transform target;
+    private Transform target;
 
     private float dirX = 0;
     [SerializeField] private float horizontalSpeed = 4f;
     private enum MovementState { idle, stun }
 
     private bool isStun = false;
+    private bool homeFlower = false;
+    private bool homeHive = false;
+    private GameObject[] homeList;
 
     void Start()
     {
@@ -27,10 +30,11 @@ public class BeeMovement : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
 
-        
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+
+        setTargetFlower();
     }
 
     void Update()
@@ -45,16 +49,23 @@ public class BeeMovement : MonoBehaviour
             if (isStun) return;
         }
 
-        // TODO add in the state of homing (plant, hive)
-        // after some ifs...
-        // set new state of homing
-        //GameObject[] homeList = GameObject.FindGameObjectsWithTag("Flower");
-        target = GameObject.FindWithTag("Flower").transform; 
-        //Need FindWithTag bc FindGameObjectWithTag returns an array of GameObjects, so can't do .transform
-        //GameObject[] homeList = GameObject.FindGameObjectsWithTag("Hive");
-        //int randIndex = Random.Range(0, homeList.Length);
-        //target = homeList[randIndex];
+        // TODO keep track of amt of honey + add timer for this
+        // TODO if bee has collected enough honey, set homeHive = true
+        
+
+        // if needed, set new state of homing
+        if (homeFlower)
+        {
+           setTargetFlower();
+        }
+        else if (homeHive)
+        {
+            setTargetHive();
+        }
+
+        // keep moving to target
         agent.SetDestination(target.position);
+        
         // TODO add in its collision with respective home
 
         // homing movement will hoepfully be controlled by unity navigation
@@ -88,4 +99,19 @@ public class BeeMovement : MonoBehaviour
 
         anim.SetInteger("state", (int)state);
     }
+
+
+    private void setTargetFlower() 
+    {
+        GameObject[] homeList = GameObject.FindGameObjectsWithTag("Flower");
+        //must have the above line in this function and not start function... idk why
+        int randIndex = Random.Range(0, homeList.Length);
+        target = homeList[randIndex].transform;
+    }
+
+    private void setTargetHive()
+    {
+        target = GameObject.FindWithTag("Hive").transform;
+    }
+
 }
