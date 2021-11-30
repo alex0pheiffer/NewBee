@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
-    [SerializeField] public AudioSource BGM;
+    [SerializeField] public GameObject BGM;
 
     private int honeyJars = 0;
 
