@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 
 // Cat Movement
@@ -25,14 +26,23 @@ public class CatMovement : MonoBehaviour
     private bool isStun = false;
     private bool isWham = false;
 
-    private bool beeInSight = false;
+    private Seeker seeker;
+    private Path path;
+    [SerializeField] float nextWaypointDistance = 0.3f;
+    private GameObject targetObj = null;
+    int currentWaypoint = 0;
+    bool reachedEndOfPath = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        seeker = GetComponent<Seeker>();
         coll = GetComponent<BoxCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+
+        if (targetObj != null)
+            seeker.StartPath(rb.position, targetObj.transform.position, OnPathComplete);
     }
 
     void Update()
@@ -48,6 +58,30 @@ public class CatMovement : MonoBehaviour
         }
 
         // TODO add in the state of homing (a bee, if in sight (we will need to make a radius of sight); otherwise random movement)
+        if (path == null)
+            return;
+
+        if (currentWaypoint >= path.vectorPath.Count)
+        {
+            reachedEndOfPath = true;
+            return;
+        }
+        else
+        {
+            reachedEndOfPath = false;
+        }
+
+        Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
+        Vector2 force = direction * horizontalSpeed * Time.deltaTime;
+
+        rb.AddForce(force);
+
+        float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
+        if (distance < nextWaypointDistance)
+        {
+            currentWaypoint++;
+        }
+
 
         // TODO add in its collision with respective home
 
@@ -120,16 +154,29 @@ public class CatMovement : MonoBehaviour
     // the trigger box is the vision circle
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("Cat collision : "+targetObj);
+
         // do nothing if we're stunned
         if (isStun) return;
         // do nothing if we're currently chasing a bee
-        if (beeInSight) return;
+        if (targetObj != null) return;
 
         // if you see a bee, chase
         if (collision.gameObject.CompareTag("Bee"))
         {
-            beeInSight = true;
-            // TODO set our target to this gameObject
+            Debug.Log("Cat sees bee");
+
+            targetObj = collision.gameObject;
+            seeker.StartPath(rb.position, targetObj.transform.position, OnPathComplete);
+        }
+    }
+
+    private void OnPathComplete(Path p)
+    {
+        if (!p.error)
+        {
+            path = p;
+            currentWaypoint = 0;
         }
     }
 }
