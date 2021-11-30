@@ -3015,16 +3015,6 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -17, y: 9, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 5
-      m_TileSpriteIndex: 5
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
   - first: {x: 16, y: 9, z: 0}
     second:
       serializedVersion: 2
@@ -3047,7 +3037,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: d218bd3e37b969c4cb07bbce3a5ab976, type: 2}
   - m_RefCount: 5
     m_Data: {fileID: 11400000, guid: 60e4fe9b0934e114cb4c7eb418f5030d, type: 2}
-  - m_RefCount: 65
+  - m_RefCount: 64
     m_Data: {fileID: 11400000, guid: 2203e35134e18214c81b2ff73f1d0de3, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 146cc6ff4d62cfc498a8f38f7a0f0809, type: 2}
@@ -3077,7 +3067,7 @@ Tilemap:
   - m_RefCount: 5
     m_Data: {fileID: -1524344875733506076, guid: 83ea5c4b7851d5a46b0d2068f35d5b8d,
       type: 3}
-  - m_RefCount: 65
+  - m_RefCount: 64
     m_Data: {fileID: -5667715500729713179, guid: 83ea5c4b7851d5a46b0d2068f35d5b8d,
       type: 3}
   - m_RefCount: 1
@@ -3099,7 +3089,7 @@ Tilemap:
     m_Data: {fileID: 1672774521079449649, guid: 676ffe4bfab3841f09431ed24f162ac6,
       type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 226
+  - m_RefCount: 225
     m_Data:
       e00: 1
       e01: 0
@@ -3118,7 +3108,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 226
+  - m_RefCount: 225
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -3203,22 +3193,8 @@ CompositeCollider2D:
     m_ColliderPaths:
     - - X: 95000000
         Y: -45000000
-      - X: 90000100
+      - X: 85000000
         Y: -45000000
-      - X: 90000100
-        Y: -45000041
-      - X: 90000041
-        Y: -45000100
-      - X: 85000041
-        Y: -45000100
-      - X: 85000100
-        Y: -45000041
-      - X: 85000100
-        Y: -34999959
-      - X: 85000041
-        Y: -34999900
-      - X: 85000000
-        Y: -34999900
       - X: 85000000
         Y: 50000000
       - X: 80000000
@@ -3241,9 +3217,9 @@ CompositeCollider2D:
         Y: -30000000
       - X: -15000000
         Y: -35000000
-      - X: 79999900
+      - X: 80000000
         Y: -35000000
-      - X: 79999900
+      - X: 80000000
         Y: -45000000
       - X: -30000000
         Y: -45000000
@@ -3276,9 +3252,9 @@ CompositeCollider2D:
       - X: -80000000
         Y: 15000000
       - X: -80000000
-        Y: 50000000
+        Y: 45000000
       - X: -85000000
-        Y: 50000000
+        Y: 45000000
       - X: -85000000
         Y: -45000000
       - X: -90000000
@@ -3335,7 +3311,7 @@ CompositeCollider2D:
     m_Paths:
     - - {x: 9.49997, y: -5}
       - {x: 9.49997, y: -4.5}
-      - {x: 8.50001, y: -4.4999747}
+      - {x: 8.5, y: -4.4999704}
       - {x: 8.49997, y: 5}
       - {x: 8, y: 4.999971}
       - {x: 7.9999704, y: -1}
@@ -3347,8 +3323,8 @@ CompositeCollider2D:
       - {x: 0.9999706, y: -3}
       - {x: -1.5, y: -3.0000293}
       - {x: -1.4999707, y: -3.5}
-      - {x: 7.9999905, y: -3.5000296}
-      - {x: 7.999961, y: -4.5}
+      - {x: 8, y: -3.5000296}
+      - {x: 7.9999704, y: -4.5}
       - {x: -3, y: -4.4999704}
       - {x: -3.0000293, y: -4}
       - {x: -7.5, y: -4.000029}
@@ -3364,8 +3340,8 @@ CompositeCollider2D:
       - {x: -4, y: 1.0000294}
       - {x: -4.000029, y: 1.5}
       - {x: -8, y: 1.5000294}
-      - {x: -8.00003, y: 5}
-      - {x: -8.5, y: 4.999971}
+      - {x: -8.00003, y: 4.5}
+      - {x: -8.5, y: 4.499971}
       - {x: -8.50003, y: -4.5}
       - {x: -9, y: -4.500029}
       - {x: -8.99997, y: -5}
@@ -3425,7 +3401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_OverrideArea: 1
-  m_Area: 1
+  m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
 --- !u!1 &661513304
@@ -3539,7 +3515,7 @@ MonoBehaviour:
   m_UseMeshPrefab: {fileID: 0}
   m_CompressBounds: 1
   m_OverrideVector: {x: 1, y: 1, z: 1}
-  m_DefaultArea: 0
+  m_DefaultArea: 1
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0
@@ -3548,7 +3524,7 @@ MonoBehaviour:
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
   m_HideEditorLogs: 0
-  m_NavMeshData: {fileID: 23800000, guid: addfb30b09b864640afa98d0455584a8, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: cc5d4692bd0614ab79ea311093c4b3ef, type: 2}
 --- !u!4 &663460405
 Transform:
   m_ObjectHideFlags: 0
@@ -3866,50 +3842,6 @@ NavMeshAgent:
   m_BaseOffset: 0.16
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!1 &787601992
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 787601994}
-  - component: {fileID: 787601993}
-  m_Layer: 0
-  m_Name: Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &787601993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 787601992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f9ff3b153d95de4f8396145aa50422b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BGM: {fileID: 0}
---- !u!4 &787601994
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 787601992}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.6472471, y: 0.28766498, z: -1.8710115}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &883771267
 GameObject:
   m_ObjectHideFlags: 0
@@ -4501,14 +4433,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1692283315}
   - component: {fileID: 1692283316}
-  - component: {fileID: 1692283317}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1692283315
 Transform:
   m_ObjectHideFlags: 0
@@ -4573,22 +4504,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1692283317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1692283314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 1
-  m_Area: 0
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: ffffffff
 --- !u!1 &1751902912
 GameObject:
   m_ObjectHideFlags: 0

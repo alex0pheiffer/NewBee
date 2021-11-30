@@ -7,7 +7,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
-    [SerializeField] public GameObject BGM;
+    [SerializeField] public AudioSource BGM;
+
+    private int honeyJars = 0;
 
     private void Awake()
     {
@@ -27,6 +29,15 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public void addHoneyJars(int num = 1)
+    {
+        honeyJars += num;
+        Debug.Log("HoneyJars = " + honeyJars);
+    }
 
+    public void clearHoneyJars()
+    {
+        honeyJars = 0;
+    }
 
 }
