@@ -2,34 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Pathfinding;
 
 public class BeeMovement : MonoBehaviour
 {
-    private NavMeshAgent agent;
     private Rigidbody2D rb;
     private BoxCollider2D coll;
     private SpriteRenderer sprite;
     private Animator anim;
 
-    //private GameObject target;
-    private Transform target;
     private GameObject targetObj;
 
     private float dirX = 0;
     [SerializeField] private float horizontalSpeed = 4f;
     private enum MovementState { idle, stun }
 
-    private enum StateState { stun, flower, hive }
+    private enum StateState { idle, stun, flower, hive }
     private StateState currentState = StateState.flower;
 
-    //private bool isStun = false;
-    //private bool homeFlower = false;
-    //private bool homeHive = false;
     private bool onFlower = false;
     private bool onHive = false;
 
     private float counter = 0f;
-    private float counterHive = 0f;
     private float honeyWait = 3f;
     private float hiveWait = 5f;
 
@@ -44,10 +38,6 @@ public class BeeMovement : MonoBehaviour
         coll = GetComponent<BoxCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-
-        agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
 
         SetTargetFlower();
     }
@@ -88,11 +78,10 @@ public class BeeMovement : MonoBehaviour
                 onFlower = false;
             }
         }
-
-        if (onHive)
+        else if (onHive)
         {
-            counterHive += Time.deltaTime;
-            if (counterHive >= hiveWait)
+            counter+= Time.deltaTime;
+            if (counter >= hiveWait)
             {
                 counter = 0;
                 SetHoneyEmpty();
@@ -103,17 +92,15 @@ public class BeeMovement : MonoBehaviour
         }
 
         // if needed, set new state of homing
-        if (currentState == StateState.flower && !IsCurrentTargetType("Flower"))
+        if (currentState == StateState.flower && (targetObj == null || !IsCurrentTargetType("Flower")))
         {
             SetTargetFlower();
         }
-        else if (currentState == StateState.hive && !IsCurrentTargetType("Hive"))
+        else if (currentState == StateState.hive && (targetObj == null || !IsCurrentTargetType("Hive")))
         {
             SetTargetHive();
         }
 
-        // keep moving to target
-        agent.SetDestination(target.position);
 
         UpdateAnimationState();
     }
@@ -175,14 +162,16 @@ public class BeeMovement : MonoBehaviour
         //must have the above line in this function and not start function... idk why
         int randIndex = Random.Range(0, homeList.Length);
         targetObj = homeList[randIndex];
-        target = targetObj.transform;
+        // set the target
+        gameObject.GetComponent<AIDestinationSetter>().target = targetObj.transform;
     }
 
     private void SetTargetHive()
     {
         Debug.Log("Target is set to hive, currentState = " + currentState);
         targetObj = GameObject.FindWithTag("Hive");
-        target = targetObj.transform;
+        // set the target
+        gameObject.GetComponent<AIDestinationSetter>().target = targetObj.transform;
     }
 
     private void SetHoneyEmpty()
@@ -198,19 +187,33 @@ public class BeeMovement : MonoBehaviour
 
     public bool IsCurrentTarget(GameObject ob) //Compares references
     {
-        return ob.transform == target;
+        return ob.transform == targetObj.transform;
     }
 
     public void CollidedWithFlower()
     {
         onFlower = true;
         Debug.Log("In CollidedWithFlower, , currentState = " + currentState);
+
+        // set the target to null
+        targetObj = null;
+        // set the target to null
+        gameObject.GetComponent<AIDestinationSetter>().target = null;
+        // set state to idle
+        currentState = StateState.idle;
     }
 
     public void CollidedWithHive()
     {
         onHive = true;
         Debug.Log("In CollidedWithHive, , currentState = " + currentState);
+
+        // set the target to null
+        targetObj = null;
+        // set the target to null
+        gameObject.GetComponent<AIDestinationSetter>().target = null;
+        // set state to idle
+        currentState = StateState.idle;
     }
 
     public bool IsOnFlower()

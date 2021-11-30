@@ -24,7 +24,7 @@ public class BeehiveScript : MonoBehaviour
             && collision.gameObject.GetComponent<BeeMovement>().IsCurrentTarget(gameObject)
             && !collision.gameObject.GetComponent<BeeMovement>().IsOnHive())
         {
-            gameManager.addHoneyJars();
+            GameManager.instance.addHoneyJars();
             collision.gameObject.GetComponent<BeeMovement>().CollidedWithHive();
         }
     }
