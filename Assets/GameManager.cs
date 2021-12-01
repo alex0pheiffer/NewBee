@@ -39,10 +39,15 @@ public class GameManager : MonoBehaviour
         Debug.Log("HoneyJars = " + honeyJars);
     }
 
-    public void clearHoneyJars()
+    public void clearHoneyJars() // do we use this?
     {
         honeyJars = 0;
         ui.ResetUI(level);
+    }
+
+    public int GetHoneyJars()
+    {
+        return honeyJars;
     }
 
 }
