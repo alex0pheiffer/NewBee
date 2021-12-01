@@ -4202,6 +4202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a772fa070ff0f045b4161bd136d9a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextWaypointDistance: 0.3
   horizontalSpeed: 4
 --- !u!114 &743256819
 MonoBehaviour:
@@ -4678,7 +4679,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   horizontalSpeed: 4
-  isWham: 0
+  endWham: 0
   nextWaypointDistance: 0.3
 --- !u!50 &1204129593
 Rigidbody2D:
@@ -5121,6 +5122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a772fa070ff0f045b4161bd136d9a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextWaypointDistance: 0.3
   horizontalSpeed: 4
 --- !u!61 &1516133464
 BoxCollider2D:
@@ -5372,6 +5374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a772fa070ff0f045b4161bd136d9a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextWaypointDistance: 0.3
   horizontalSpeed: 4
 --- !u!61 &1602904520
 BoxCollider2D:
@@ -6809,6 +6812,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI_Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7847361148563385933, guid: 8f79e27fae574e041b8eece9a4ebab3f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f79e27fae574e041b8eece9a4ebab3f, type: 3}
