@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Restart : MonoBehaviour
+public class RulesButton : MonoBehaviour
 {
 
-    public void RestartGame()
+    public void LoadRules()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(2);
     }
 
 }
