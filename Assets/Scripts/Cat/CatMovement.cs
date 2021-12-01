@@ -24,7 +24,10 @@ public class CatMovement : MonoBehaviour
     private enum MovementState { idle, run, jump, wham, stun }
 
     private bool isStun = false;
-    private bool isWham = false;
+    public bool isWham = false;
+
+    private float cooldown = 0;
+    private const float stunCooldown = 2f;
 
     private Seeker seeker;
     private Path path;
@@ -50,17 +53,31 @@ public class CatMovement : MonoBehaviour
         // if stun, do nothing
         if (isStun)
         {
-            // TODO check the stun CD
-            isStun = true;
+            // subtract from the stun cooldown
+            cooldown -= Time.deltaTime;
+            if (cooldown <= 0)
+            {
+                cooldown = 0;
+                isStun = false;
+            }
 
             // if we're still stunned, do nothing
             if (isStun) return;
         }
 
-        // TODO add in the state of homing (a bee, if in sight (we will need to make a radius of sight); otherwise random movement)
+        // don't move along a path if we have no path
         if (path == null)
+        {
+            // TODO move randomly
             return;
+        }
+        else if (reachedEndOfPath)
+        {
+            // wham the bee
+            isWham = true;
+        }
 
+        // check if the path is complete
         if (currentWaypoint >= path.vectorPath.Count)
         {
             reachedEndOfPath = true;
@@ -97,8 +114,14 @@ public class CatMovement : MonoBehaviour
         isStun = stun;
         if (isStun)
         {
+            // start the stun cooldown
+            cooldown = stunCooldown;
             // you cannot be in a whamming state if stunned
             if (isWham) isWham = false;
+        }
+        else
+        {
+            cooldown = 0;
         }
 
         // TODO return if the stunning/unstunning was successful
@@ -181,10 +204,11 @@ public class CatMovement : MonoBehaviour
             Debug.Log("Cat saw bee");
 
             targetObj = null;
-            //seeker. ;             //TODO: Alex you left this here
+            path = null;
         }
     }
 
+    // this is called when a path has been created to the target, and then sets the path
     private void OnPathComplete(Path p)
     {
         if (!p.error)
