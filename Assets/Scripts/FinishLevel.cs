@@ -16,7 +16,7 @@ public class FinishLevel : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.instance.GetHoneyJars() >= 2 && !ended)    // TODO: will need to change if honey jars needed changes
+        if (GameManager.instance.GetHoneyJars() >= 12 && !ended)    // TODO: will need to change if honey jars needed changes
         {
             Debug.Log("HONEYJARS >= 2 IN FINLEVEL");
             //GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
