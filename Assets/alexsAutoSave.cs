@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿
+/*
+ * 
+ * using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
@@ -13,48 +16,49 @@ using UnityEditor.SceneManagement;
 [InitializeOnLoad]
 public class alexsAutoSave  //AutoSaveOnRunMenuItem
 {
-    public const string MenuName = "Tools/Autosave On Run";
-    private static bool isToggled;
+public const string MenuName = "Tools/Autosave On Run";
+private static bool isToggled;
 
-    static alexsAutoSave()
+static alexsAutoSave()
+{
+    EditorApplication.delayCall += () =>
     {
-        EditorApplication.delayCall += () =>
-        {
-            isToggled = EditorPrefs.GetBool(MenuName, false);
-            UnityEditor.Menu.SetChecked(MenuName, isToggled);
-            SetMode();
-        };
-    }
-
-    [MenuItem(MenuName)]
-    private static void ToggleMode()
-    {
-        isToggled = !isToggled;
+        isToggled = EditorPrefs.GetBool(MenuName, false);
         UnityEditor.Menu.SetChecked(MenuName, isToggled);
-        EditorPrefs.SetBool(MenuName, isToggled);
         SetMode();
-    }
+    };
+}
 
-    private static void SetMode()
+[MenuItem(MenuName)]
+private static void ToggleMode()
+{
+    isToggled = !isToggled;
+    UnityEditor.Menu.SetChecked(MenuName, isToggled);
+    EditorPrefs.SetBool(MenuName, isToggled);
+    SetMode();
+}
+
+private static void SetMode()
+{
+    if (isToggled)
     {
-        if (isToggled)
-        {
-            EditorApplication.playModeStateChanged += AutoSaveOnRun;
-        }
-        else
-        {
-            EditorApplication.playModeStateChanged -= AutoSaveOnRun;
-        }
+        EditorApplication.playModeStateChanged += AutoSaveOnRun;
     }
-
-    private static void AutoSaveOnRun(PlayModeStateChange state)
+    else
     {
-        if (EditorApplication.isPlayingOrWillChangePlaymode && !EditorApplication.isPlaying)
-        {
-            Debug.Log("Auto-Saving before entering Play mode");
-
-            EditorSceneManager.SaveOpenScenes();
-            AssetDatabase.SaveAssets();
-        }
+        EditorApplication.playModeStateChanged -= AutoSaveOnRun;
     }
 }
+
+private static void AutoSaveOnRun(PlayModeStateChange state)
+{
+    if (EditorApplication.isPlayingOrWillChangePlaymode && !EditorApplication.isPlaying)
+    {
+        Debug.Log("Auto-Saving before entering Play mode");
+
+        EditorSceneManager.SaveOpenScenes();
+        AssetDatabase.SaveAssets();
+    }
+}
+}
+*/
