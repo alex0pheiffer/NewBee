@@ -62,6 +62,8 @@ public class CatMovement : MonoBehaviour
 
     void Update()
     {
+        UpdateAnimationState();
+
         // if stun, do nothing
         if (isStun)
         {
@@ -71,6 +73,8 @@ public class CatMovement : MonoBehaviour
             {
                 cooldown = 0;
                 isStun = false;
+                // stop our stun path
+                path = null;
             }
 
             // if we're still stunned, do nothing
@@ -140,7 +144,6 @@ public class CatMovement : MonoBehaviour
 
         // cats can only jump if IsGrounded() ((they cannot air jump))
 
-        UpdateAnimationState();
     }
 
     public bool Stun(bool stun)
@@ -157,6 +160,8 @@ public class CatMovement : MonoBehaviour
         {
             cooldown = 0;
         }
+        // stop movement
+        seeker.StartPath(rb.position, rb.position, OnPathComplete);
 
         // TODO return if the stunning/unstunning was successful
         return true;
@@ -209,7 +214,7 @@ public class CatMovement : MonoBehaviour
     }
 
     // the trigger box is the vision circle
-    private void OnTriggerStay2D(Collider2D collision)
+    public void TriggerStay(Collider2D collision)
     {
 
         // do nothing if we're stunned
@@ -227,7 +232,7 @@ public class CatMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void TriggerExit(Collider2D collision)
     {
         // do nothing if we're stunned
         if (isStun) return;
@@ -235,7 +240,6 @@ public class CatMovement : MonoBehaviour
         // if the creature exiting is a bee, and specifically the bee you're chasing
         if (collision.gameObject.CompareTag("Bee") && collision.gameObject == targetObj)
         {
-            Debug.Log("Cat saw bee");
 
             targetObj = null;
             path = null;

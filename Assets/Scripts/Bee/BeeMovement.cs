@@ -58,7 +58,6 @@ public class BeeMovement : MonoBehaviour
         {
             // subtract from the stun cooldown
             counter -= Time.deltaTime;
-            Debug.Log("stunned state");
             if (counter <= 0)
             {
                 counter = 0;
@@ -103,7 +102,7 @@ public class BeeMovement : MonoBehaviour
             {
                 counter = 0;
                 SetHoneyEmpty();
-                Debug.Log("Waited enough at hive, currentState = " + currentState);
+                //Debug.Log("Waited enough at hive, currentState = " + currentState);
                 onHive = false;
                 currentState = StateState.flower;
             }
@@ -112,13 +111,13 @@ public class BeeMovement : MonoBehaviour
         // if needed, set new state of homing
         if (currentState == StateState.flower && path == null)
         {
-            Debug.Log("set target flower");
+            //Debug.Log("set target flower");
             SetTargetFlower();
             return;
         }
         else if (currentState == StateState.hive && path == null)
         {
-            Debug.Log("set target hive");
+            //Debug.Log("set target hive");
             SetTargetHive();
             return;
         }
@@ -195,7 +194,7 @@ public class BeeMovement : MonoBehaviour
 
     private void SetTargetFlower() 
     {
-        Debug.Log("Target is set to flower, currentState = " + currentState);
+        //Debug.Log("Target is set to flower, currentState = " + currentState);
         GameObject[] homeList = GameObject.FindGameObjectsWithTag("Flower");
         //must have the above line in this function and not start function... idk why
         int randIndex = Random.Range(0, homeList.Length);
@@ -206,7 +205,7 @@ public class BeeMovement : MonoBehaviour
 
     private void SetTargetHive()
     {
-        Debug.Log("Target is set to hive, currentState = " + currentState);
+        //Debug.Log("Target is set to hive, currentState = " + currentState);
         targetObj = GameObject.FindWithTag("Hive");
         // set the target
         seeker.StartPath(rb.position, targetObj.transform.position, OnPathComplete);
@@ -233,14 +232,17 @@ public class BeeMovement : MonoBehaviour
         if (stun)
         {
             // set the state
-            previousState = currentState;
-            currentState = StateState.stun;
+            if (currentState != StateState.stun)
+            {
+                previousState = currentState;
+                currentState = StateState.stun;
+                // stop movement
+                seeker.StartPath(rb.position, rb.position, OnPathComplete);
+            }
             // start the stun cooldown
             counter = stunCooldown;
-            // stop movement
-            seeker.StartPath(rb.position, rb.position, OnPathComplete);
 
-            Debug.Log("stunning bee...");
+            //Debug.Log("stunning bee...");
             return true;
         }
 
@@ -250,7 +252,7 @@ public class BeeMovement : MonoBehaviour
     public void CollidedWithFlower()
     {
         onFlower = true;
-        Debug.Log("In CollidedWithFlower, , currentState = " + currentState);
+        //Debug.Log("In CollidedWithFlower, , currentState = " + currentState);
 
         // set the path and target to null
         targetObj = null;
@@ -262,7 +264,7 @@ public class BeeMovement : MonoBehaviour
     public void CollidedWithHive()
     {
         onHive = true;
-        Debug.Log("In CollidedWithHive, , currentState = " + currentState);
+        //Debug.Log("In CollidedWithHive, , currentState = " + currentState);
 
         // set the path and target to null
         targetObj = null;
