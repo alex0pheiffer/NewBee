@@ -24,10 +24,12 @@ public class CatMovement : MonoBehaviour
     private enum MovementState { idle, run, jump, wham, stun }
 
     private bool isStun = false;
-    public bool isWham = false;
+    private bool isWham = false;
+    public bool endWham = false;
 
     private float cooldown = 0;
-    private const float stunCooldown = 2f;
+    private const float stunCooldown = 4f;
+    private const float whamCooldown = 2f;
 
     private Seeker seeker;
     private Path path;
@@ -46,6 +48,16 @@ public class CatMovement : MonoBehaviour
 
         if (targetObj != null)
             seeker.StartPath(rb.position, targetObj.transform.position, OnPathComplete);
+
+        InvokeRepeating("FindPath", 0f, 0.5f);
+    }
+
+    private void FindPath()
+    {
+        if (targetObj != null && !isStun && !reachedEndOfPath)
+        {
+            seeker.StartPath(rb.position, targetObj.transform.position, OnPathComplete);
+        }
     }
 
     void Update()
@@ -64,6 +76,23 @@ public class CatMovement : MonoBehaviour
             // if we're still stunned, do nothing
             if (isStun) return;
         }
+        // when the wham animation is finished...
+        else if (cooldown > 0)
+        {
+            if (endWham)
+            {
+                Debug.Log("endwham");
+                endWham = false;
+                isWham = false;
+            }
+
+            cooldown -= Time.deltaTime;
+            if (cooldown <= 0)
+            {
+                cooldown = 0;
+                Debug.Log("wham cooldown finished");
+            }
+        }
 
         // don't move along a path if we have no path
         if (path == null)
@@ -71,14 +100,14 @@ public class CatMovement : MonoBehaviour
             // TODO move randomly
             return;
         }
-        else if (reachedEndOfPath)
+        else if (reachedEndOfPath && cooldown == 0)
         {
-            // wham the bee
-            isWham = true;
+            // don't wham the bee if we have a cooldown
+            WhamBee();
         }
 
         // check if the path is complete
-        if (currentWaypoint >= path.vectorPath.Count)
+        if (path != null && currentWaypoint >= path.vectorPath.Count)
         {
             reachedEndOfPath = true;
             return;
@@ -88,16 +117,21 @@ public class CatMovement : MonoBehaviour
             reachedEndOfPath = false;
         }
 
-        Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
-        Vector2 force = direction * horizontalSpeed * Time.deltaTime;
 
-        rb.AddForce(force);
-
-        float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
-        if (distance < nextWaypointDistance)
+        if (path != null)
         {
-            currentWaypoint++;
+            Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
+            Vector2 force = direction * horizontalSpeed * Time.deltaTime;
+
+            rb.AddForce(force);
+
+            float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
+            if (distance < nextWaypointDistance)
+            {
+                currentWaypoint++;
+            }
         }
+        
 
 
         // TODO add in its collision with respective home
@@ -175,7 +209,7 @@ public class CatMovement : MonoBehaviour
     }
 
     // the trigger box is the vision circle
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
 
         // do nothing if we're stunned
@@ -216,5 +250,16 @@ public class CatMovement : MonoBehaviour
             path = p;
             currentWaypoint = 0;
         }
+    }
+
+    private void WhamBee()
+    {
+        // wham the bee
+        isWham = true;
+        path = null;
+        targetObj.GetComponent<BeeMovement>().Stun(true);
+        targetObj = null;
+        cooldown = whamCooldown;
+        Debug.Log("Reached bee");
     }
 }

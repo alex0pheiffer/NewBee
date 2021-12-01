@@ -3799,7 +3799,7 @@ MonoBehaviour:
   manualDebugFloorRoof: 0
   showSearchTree: 0
   unwalkableNodeDebugSize: 0.3
-  logPathResults: 1
+  logPathResults: 0
   maxNearestNodeDistance: 100
   scanOnStartup: 1
   fullGetNearestSearch: 0
@@ -3850,7 +3850,7 @@ MonoBehaviour:
   heuristic: 2
   heuristicScale: 1
   threadCount: 1
-  maxFrameTime: 1
+  maxFrameTime: 10
   batchGraphUpdates: 0
   graphUpdateBatchingInterval: 0.2
   euclideanEmbedding:
@@ -4085,6 +4085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a772fa070ff0f045b4161bd136d9a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextWaypointDistance: 0.3
   horizontalSpeed: 4
 --- !u!114 &743256819
 MonoBehaviour:
@@ -4099,7 +4100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  target: {fileID: 628834697}
+  target: {fileID: 0}
 --- !u!114 &743256820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4440,6 +4441,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   horizontalSpeed: 4
+  isWham: 0
   nextWaypointDistance: 0.3
 --- !u!50 &1204129593
 Rigidbody2D:
@@ -5934,6 +5936,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6724782469476293041, guid: 8f79e27fae574e041b8eece9a4ebab3f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6724782469952907553, guid: 8f79e27fae574e041b8eece9a4ebab3f,
         type: 3}
       propertyPath: m_RootOrder
