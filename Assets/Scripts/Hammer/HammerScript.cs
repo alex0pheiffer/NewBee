@@ -5,6 +5,7 @@ using UnityEngine;
 public class HammerScript : MonoBehaviour
 {
     private Animator anim;
+    //private CircleCollider2D coll;
     //private bool flipY = false;
     private enum MovementState { idle, wham };
 
@@ -12,6 +13,7 @@ public class HammerScript : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        //coll = GetComponent<CircleCollider2D>();
     }
 
     // Update is called once per frame
@@ -19,6 +21,15 @@ public class HammerScript : MonoBehaviour
     {
         MovementState state = MovementState.wham;
         anim.SetInteger("state", (int)state);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("on trigger enter2d in hammer script");
+        if (collision.gameObject.CompareTag("Cat"))
+        {
+            collision.gameObject.GetComponent<CatMovement>().Stun(true);
+        }
     }
 
     /*public void FlipY(bool flip)
