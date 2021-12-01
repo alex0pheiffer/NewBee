@@ -44,7 +44,7 @@ public class UIManager : MonoBehaviour
         // max currently cant be modified
         if (maxHoney != 12) Debug.LogError("Values other than 12 are currently not supported for max honey.");
 
-        honeyAmt = 0.ToString();
+        honeyAmt.text = 0.ToString();
         // clear the honey jars
         for (int i = 0; i < honeyJars.Length; i++)
         {
